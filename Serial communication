@@ -1,0 +1,42 @@
+
+long inp = 0;
+char x[30];
+int cnt = 0;
+char test;
+boolean availble = true;
+
+void setup() {
+  Serial.begin(115200);  // Use a suitable baud rate
+}
+
+void loop() {
+
+  cnt = 0;
+  availble  = true;
+  if (Serial.read() == 'a') {
+    while ((Serial.available() > 0) && availble == true)
+    {
+      test = Serial.read();
+      if (!(test == 'b'))
+      {
+        x[cnt] = test;
+        cnt++;
+        availble = true;
+      }
+      else
+      {
+        availble = false;
+      }
+      inp = 100 * (x[0] - 48) + ((x[1] - 48) * 10) + (x[2] - 48);
+      pwmTR = int((inp / 100));
+      pwmTL = int((inp / 10) % 10);
+      bioprop = int((inp % 100) % 10);
+
+      //    ThR.writeMicroseconds(pwmTR);
+      //    ThL.writeMicroseconds(pwmTL);
+      //    analogWrite(biopropL, int(28.3 * bioprop));
+      //    analogWrite(biopropR, int(28.3 * bioprop));
+    }
+  }
+  Serial.println(inp);
+}
