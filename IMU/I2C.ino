@@ -34,6 +34,7 @@ uint8_t i2cWrite(uint8_t registerAddress, uint8_t *data, uint8_t length, bool se
   return rcode; // See: http://arduino.cc/en/Reference/WireEndTransmission
 }
 
+
 uint8_t i2cRead(uint8_t registerAddress, uint8_t *data, uint8_t nbytes) {
   uint32_t timeOutTimer;
   Wire.beginTransmission(IMUAddress);
