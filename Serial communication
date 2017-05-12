@@ -11,12 +11,18 @@ void setup() {
 
 void loop() {
 
-  cnt = 0;
-  availble  = true;
-  if (Serial.read() == 'a') {
+  cnt = 0;            // Initializing the count variable
+  availble  = true;   // For the following while loop
+  
+  // the format of data sent to arduino should be <starting identifier character> <DATA> <ending identifier character>
+  // for example, to send 112, it should be sent as a112b 
+  // in this code 'a' is the starting identifier and 'b' is the ending identifier, feel free to use characters of your choice
+  
+  if (Serial.read() == 'a')     // or any character/number that you wish to start the data with  
+  {
     while ((Serial.available() > 0) && availble == true)
     {
-      test = Serial.read();
+      test = Serial.read();     // Use Serial functions minimally
       if (!(test == 'b'))
       {
         x[cnt] = test;
@@ -25,18 +31,10 @@ void loop() {
       }
       else
       {
-        availble = false;
+        availble = false;  // breaks the while loop if b is detected
       }
-      inp = 100 * (x[0] - 48) + ((x[1] - 48) * 10) + (x[2] - 48);
-      pwmTR = int((inp / 100));
-      pwmTL = int((inp / 10) % 10);
-      bioprop = int((inp % 100) % 10);
-
-      //    ThR.writeMicroseconds(pwmTR);
-      //    ThL.writeMicroseconds(pwmTL);
-      //    analogWrite(biopropL, int(28.3 * bioprop));
-      //    analogWrite(biopropR, int(28.3 * bioprop));
+      inp = 100 * (x[0] - 48) + ((x[1] - 48) * 10) + (x[2] - 48); // written for three digits, it is easy to extend this to higher orders 
     }
   }
-  Serial.println(inp);
+  Serial.println(inp);    //print what you received.
 }
